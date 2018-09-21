@@ -2,7 +2,6 @@ from pynput.mouse import Button, Controller
 from pynput import mouse
 import threading
 import time
-import curses
 
 global stopped
 stopped = False
@@ -32,14 +31,15 @@ def init():
 	print("Got the position\n")
 	secs = int(input("Enter the time to keep clicking in seconds"))
 
-	threading.Thread( target=inp_stopper ).start()
+	#threading.Thread( target=inp_stopper ).start()
 	threading.Thread( target=time_stopper ).start()
 
 	mouse.position = (p,q)
-	#while stopped==False:
-	#	print("Clicked")
-	#	mouse2.click(Button.left, 1)
+	while stopped==False:
+		print("Clicked")
+		mouse2.click(Button.left, 1)
 
+"""
 def inp_stopper():
 	global stopped
 	while stopped==False:
@@ -52,34 +52,16 @@ def inp_stopper():
 				pass
 		except:
 			pass 
-
+"""
 def time_stopper():
 	
 	global stopped,secs
 	print("here",secs)
 	time.sleep(secs)
 	stopped=True
-	print("Istpped time")
+	print("Stopped time")
 
 
-def main2(win):
-    win.nodelay(True)
-    key=""
-    win.clear()                
-    win.addstr("Detected key:")
-    while 1:          
-        try:                 
-           key = win.getkey()         
-           win.clear()                
-           win.addstr("Detected key:")
-           win.addstr(str(key)) 
-           if key == os.linesep:
-              break           
-        except Exception as e:
-           # No input   
-           pass         
-
-curses.wrapper(main2)
 
 if __name__ == '__main__':
 	threading.Thread( target=init ).start()
